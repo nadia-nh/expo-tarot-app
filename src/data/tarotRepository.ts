@@ -18,10 +18,15 @@ let cachedDeck: TarotCard[] | null = null;
 export async function getFullDeck(useNetwork: boolean): Promise<TarotCard[]> {
   if (cachedDeck) return cachedDeck;
 
-  const count = await getDeckCount();
-  if (count > 0) {
-    cachedDeck = await getAllCards();
-    return cachedDeck;
+  // DB is unavailable on web — skip gracefully
+  try {
+    const count = await getDeckCount();
+    if (count > 0) {
+      cachedDeck = await getAllCards();
+      return cachedDeck;
+    }
+  } catch {
+    console.warn('[TarotRepository] DB unavailable, skipping cache lookup');
   }
 
   if (!useNetwork) {
@@ -31,7 +36,7 @@ export async function getFullDeck(useNetwork: boolean): Promise<TarotCard[]> {
 
   try {
     const apiDeck = await fetchAllCards();
-    await insertOrReplaceCards(apiDeck);
+    try { await insertOrReplaceCards(apiDeck); } catch {}
     cachedDeck = apiDeck;
     return apiDeck;
   } catch (e) {
@@ -59,7 +64,11 @@ export async function removeReading(readingId: number): Promise<void> {
 }
 
 export async function getReadingHistory(): Promise<ReadingWithCards[]> {
-  return getAllReadingsWithCards();
+  try {
+    return await getAllReadingsWithCards();
+  } catch {
+    return [];
+  }
 }
 
 export function resolveCardFromHistory(name: string): TarotCard | undefined {

@@ -21,12 +21,14 @@ export default function ResultScreen() {
   const route = useRoute<any>();
   const spreadSize: number = route.params?.spreadSize ?? 1;
 
-  const { currentSpread, isSpreadSaved, drawCards, revealCard, saveCurrentReading, selectCard } =
+  const { currentSpread, isSpreadSaved, isInitialized, drawCards, revealCard, saveCurrentReading, selectCard } =
     useTarotStore();
 
   useEffect(() => {
-    drawCards(spreadSize);
-  }, [spreadSize]);
+    if (isInitialized) {
+      drawCards(spreadSize);
+    }
+  }, [isInitialized, spreadSize]);
 
   const allRevealed = currentSpread.length > 0 && currentSpread.every((c) => c.isRevealed);
 

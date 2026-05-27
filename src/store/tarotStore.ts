@@ -18,6 +18,7 @@ interface TarotState {
   pendingDeletionId: number | null;
   readingHistory: ReadingWithCards[];
   isNetworkEnabled: boolean;
+  isInitialized: boolean;
 
   init: () => Promise<void>;
   drawCards: (count: number) => void;
@@ -55,11 +56,12 @@ export const useTarotStore = create<TarotState>((set, get) => ({
   pendingDeletionId: null,
   readingHistory: [],
   isNetworkEnabled: false,
+  isInitialized: false,
 
   init: async () => {
     const deck = await getFullDeck(get().isNetworkEnabled);
     const dailyDrawn = drawN(deck, 1, true);
-    set({ deck, dailyCard: dailyDrawn[0] ?? null });
+    set({ deck, dailyCard: dailyDrawn[0] ?? null, isInitialized: true });
     await get().loadHistory();
   },
 
