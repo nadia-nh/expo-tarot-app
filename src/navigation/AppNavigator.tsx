@@ -84,6 +84,7 @@ function TabNavigator() {
         component={MenuScreen}
         options={{
           title: 'Arcana Flux Tarot',
+          tabBarLabel: 'Menu',
           headerTitleStyle: {
             fontFamily: 'Merriweather_300Light',
             fontSize: 24,
@@ -95,16 +96,20 @@ function TabNavigator() {
       <Tab.Screen
         name="OneCard"
         component={ResultScreen}
-        options={{ title: 'Your Card' }}
+        options={{ title: 'Your Card', tabBarLabel: '1 Card' }}
         initialParams={{ spreadSize: 1 }}
       />
       <Tab.Screen
         name="ThreeCards"
         component={ResultScreen}
-        options={{ title: 'Your Spread' }}
+        options={{ title: 'Your Spread', tabBarLabel: '3 Cards' }}
         initialParams={{ spreadSize: 3 }}
       />
-      <Tab.Screen name="History" component={HistoryScreen} options={{ title: 'Tarot History' }} />
+      <Tab.Screen
+        name="History"
+        component={HistoryScreen}
+        options={{ title: 'Tarot History', tabBarLabel: 'History' }}
+      />
     </Tab.Navigator>
   );
 }
