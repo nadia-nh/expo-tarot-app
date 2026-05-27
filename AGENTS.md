@@ -42,6 +42,14 @@ The `flipAnim` ref is reset via `useEffect` on `drawnCard.card.name` change to h
 
 `currentSpreadSize` in the store tracks which tab last drew cards. `ResultScreen` uses `useFocusEffect` with a `currentSpreadSize !== spreadSize` guard so it only redraws when switching tabs, not when returning from `CardDetailScreen`.
 
+## Theme conventions
+
+Use `fontFamilies.light / .regular / .bold` from `src/theme/typography.ts` for all Merriweather font strings — never hardcode `'Merriweather_300Light'` etc. directly.
+
+Use `colors.softGold` and other named values from `src/theme/colors.ts` rather than hex literals where the colour already has a name there.
+
+Use `SpreadType.Single` / `SpreadType.Three` from `src/domain/TarotCard.ts` wherever spread type strings are needed — don't compare against raw `'SingleCardDraw'` / `'ThreeCardDraw'` literals.
+
 ## Image map
 
 React Native's Metro bundler requires static `require()` calls — no dynamic paths. All 78 card images are mapped in `src/domain/cardImages.ts`. If new cards are added, a new static entry must be added there.
