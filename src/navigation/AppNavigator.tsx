@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Text, useTheme } from 'react-native-paper';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTarotStore } from '../store/tarotStore';
 import MenuScreen from '../screens/MenuScreen';
 import ResultScreen from '../screens/ResultScreen';
@@ -42,14 +43,34 @@ function TabNavigator() {
 
   return (
     <Tab.Navigator
-      screenOptions={{
+      screenOptions={({ route }) => ({
         tabBarActiveTintColor: theme.colors.primary,
         tabBarInactiveTintColor: theme.colors.onSurfaceVariant,
-        tabBarStyle: { backgroundColor: theme.colors.surface },
+        tabBarStyle: {
+          backgroundColor: theme.colors.surface,
+          height: 64,
+          paddingBottom: 8,
+          paddingTop: 4,
+          borderTopColor: theme.colors.outlineVariant,
+        },
+        tabBarLabelStyle: {
+          fontFamily: 'Merriweather_300Light',
+          fontSize: 11,
+          letterSpacing: 0.5,
+        },
         headerStyle: { backgroundColor: theme.colors.surface },
         headerTintColor: theme.colors.onSurface,
         headerRight,
-      }}
+        tabBarIcon: ({ color, size }) => {
+          const icons: Record<string, keyof typeof MaterialCommunityIcons.glyphMap> = {
+            Menu: 'moon-waning-crescent',
+            OneCard: 'cards-outline',
+            ThreeCards: 'cards',
+            History: 'history',
+          };
+          return <MaterialCommunityIcons name={icons[route.name]} size={size} color={color} />;
+        },
+      })}
     >
       <Tab.Screen name="Menu" component={MenuScreen} options={{ title: 'Arcana Flux' }} />
       <Tab.Screen
