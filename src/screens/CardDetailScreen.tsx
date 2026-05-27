@@ -84,10 +84,7 @@ function MeaningSection({
       <Text style={[styles.suitLabel, { color: theme.colors.primary }]}>
         {selectedCard.card.suit}
       </Text>
-      <CardMeaning
-        meaning={meaning}
-        label={selectedCard.isReversed ? 'Reversed Meaning' : 'Upright Meaning'}
-      />
+      <CardMeaning meaning={meaning} />
     </>
   );
 }
