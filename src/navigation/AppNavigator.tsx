@@ -1,7 +1,9 @@
+import { Platform, Pressable } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useTheme } from 'react-native-paper';
+import { Text, useTheme } from 'react-native-paper';
+import { useTarotStore } from '../store/tarotStore';
 import MenuScreen from '../screens/MenuScreen';
 import ResultScreen from '../screens/ResultScreen';
 import HistoryScreen from '../screens/HistoryScreen';
@@ -22,8 +24,22 @@ export type TabParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<TabParamList>();
 
+function DarkModeToggle() {
+  const theme = useTheme();
+  const { isDark, toggleDark } = useTarotStore();
+  return (
+    <Pressable onPress={toggleDark} style={{ paddingHorizontal: 16 }}>
+      <Text style={{ fontSize: 18, color: theme.colors.onSurface }}>
+        {isDark ? '☀️' : '🌙'}
+      </Text>
+    </Pressable>
+  );
+}
+
 function TabNavigator() {
   const theme = useTheme();
+  const headerRight = Platform.OS === 'web' ? () => <DarkModeToggle /> : undefined;
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -32,6 +48,7 @@ function TabNavigator() {
         tabBarStyle: { backgroundColor: theme.colors.surface },
         headerStyle: { backgroundColor: theme.colors.surface },
         headerTintColor: theme.colors.onSurface,
+        headerRight,
       }}
     >
       <Tab.Screen name="Menu" component={MenuScreen} options={{ title: 'Arcana Flux' }} />

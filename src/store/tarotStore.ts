@@ -21,8 +21,10 @@ interface TarotState {
   readingHistory: ReadingWithCards[];
   isNetworkEnabled: boolean;
   isInitialized: boolean;
+  isDark: boolean;
 
   init: () => Promise<void>;
+  toggleDark: () => void;
   drawCards: (count: number) => void;
   revealCard: (index: number) => void;
   saveCurrentReading: () => Promise<void>;
@@ -60,6 +62,7 @@ export const useTarotStore = create<TarotState>((set, get) => ({
   readingHistory: [],
   isNetworkEnabled: Platform.OS === 'web',
   isInitialized: false,
+  isDark: false,
 
   init: async () => {
     const deck = await getFullDeck(get().isNetworkEnabled);
@@ -113,6 +116,8 @@ export const useTarotStore = create<TarotState>((set, get) => ({
   clearSelectedCard: () => set({ selectedCard: null }),
 
   clearCurrentSpread: () => set({ currentSpread: [], isSpreadSaved: false }),
+
+  toggleDark: () => set((s) => ({ isDark: !s.isDark })),
 
   resolveCardFromHistory: (name, isReversed) => {
     const fromDeck = get().deck.find((c) => c.name === name);
