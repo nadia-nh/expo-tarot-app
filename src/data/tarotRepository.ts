@@ -11,7 +11,6 @@ import {
   getAllReadingsWithCards,
   ReadingWithCards,
 } from './tarotDao';
-import { getCardByName } from './hardcodedDeck';
 
 let cachedDeck: TarotCard[] | null = null;
 
@@ -79,6 +78,3 @@ export async function getReadingHistory(): Promise<ReadingWithCards[]> {
   }
 }
 
-export function resolveCardFromHistory(name: string): TarotCard | undefined {
-  return getCardByName(name);
-}

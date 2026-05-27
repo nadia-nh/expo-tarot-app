@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Platform } from 'react-native';
-import { TarotCard, DrawnCard, Suit } from '../domain/TarotCard';
+import { TarotCard, DrawnCard, Suit, SpreadType } from '../domain/TarotCard';
 import { getDeck, getCardByName } from '../data/hardcodedDeck';
 import {
   getFullDeck,
@@ -89,7 +89,7 @@ export const useTarotStore = create<TarotState>((set, get) => ({
   saveCurrentReading: async () => {
     if (get().isSpreadSaved) return;
     const { currentSpread } = get();
-    const spreadType = currentSpread.length === 3 ? 'ThreeCardDraw' : 'SingleCardDraw';
+    const spreadType = currentSpread.length === 3 ? SpreadType.Three : SpreadType.Single;
     await saveReading(spreadType, currentSpread);
     set({ isSpreadSaved: true });
 

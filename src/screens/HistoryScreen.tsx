@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
 import { useTarotStore } from '../store/tarotStore';
-import { DrawnCard } from '../domain/TarotCard';
+import { DrawnCard, SpreadType } from '../domain/TarotCard';
 import { fontFamilies } from '../theme/typography';
 import { ReadingWithCards } from '../data/tarotDao';
 import CardImage from '../components/CardImage';
@@ -53,7 +53,7 @@ function ReadingItem({ item, onDeleteSwipe, onCardPress, resolveCard }: ReadingI
       <Surface style={[styles.card, { backgroundColor: theme.colors.surfaceVariant }]} elevation={0}>
         <View style={styles.header}>
           <Text style={[styles.spreadType, { fontFamily: fontFamilies.bold }]}>
-            {item.reading.spreadType === 'ThreeCardDraw' ? '3 Card Draw' : '1 Card Draw'}
+            {item.reading.spreadType === SpreadType.Three ? '3 Card Draw' : '1 Card Draw'}
           </Text>
           <Text style={{ opacity: 0.6, fontSize: 12 }}>{formatDate(item.reading.timestamp)}</Text>
         </View>

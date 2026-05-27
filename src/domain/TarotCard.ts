@@ -67,3 +67,9 @@ export function getMeaning(drawn: DrawnCard): string {
 export function rankFromLabel(label: string): Rank | null {
   return (Object.values(Rank) as string[]).includes(label) ? (label as Rank) : null;
 }
+
+export const SpreadType = {
+  Single: 'SingleCardDraw',
+  Three:  'ThreeCardDraw',
+} as const;
+export type SpreadType = typeof SpreadType[keyof typeof SpreadType];
