@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "tarot-temp",
-    "slug": "tarot-temp",
+    "name": "Arcana Flux",
+    "slug": "arcana-flux",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true
     },
