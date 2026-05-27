@@ -41,7 +41,7 @@ export default function CardDetailScreen() {
   if (isLandscape) {
     return (
       <View style={[styles.root, styles.rowLayout, { backgroundColor: theme.colors.background }]}>
-        <CardImage cardName={selectedCard.card.name} isRevealed size={imageWidth} />
+        <CardImage cardName={selectedCard.card.name} isRevealed isReversed={selectedCard.isReversed} size={imageWidth} />
         <ScrollView style={styles.meaningColumn} contentContainerStyle={styles.meaningContent}>
           <MeaningSection selectedCard={selectedCard} meaning={meaning} theme={theme} />
         </ScrollView>
@@ -54,7 +54,7 @@ export default function CardDetailScreen() {
       style={{ backgroundColor: theme.colors.background }}
       contentContainerStyle={styles.portrait}
     >
-      <CardImage cardName={selectedCard.card.name} isRevealed size={imageWidth} />
+      <CardImage cardName={selectedCard.card.name} isRevealed isReversed={selectedCard.isReversed} size={imageWidth} />
       <View style={{ height: 24 }} />
       <MeaningSection selectedCard={selectedCard} meaning={meaning} theme={theme} />
     </ScrollView>

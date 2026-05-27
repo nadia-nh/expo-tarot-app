@@ -70,7 +70,7 @@ export default function CardDisplay({ drawnCard, onReveal, onCardPress, cardWidt
               styles.card,
               styles.cardFace,
               { width: cardWidth, height: cardHeight, borderRadius: 8 },
-              { transform: [{ rotateY: frontInterpolate }] },
+              { transform: [{ rotateY: frontInterpolate }, ...(drawnCard.isReversed ? [{ rotate: '180deg' }] : [])] },
             ]}
             resizeMode="contain"
           />

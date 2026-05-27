@@ -62,7 +62,7 @@ function ReadingItem({ item, onDeleteSwipe, onCardPress, resolveCard }: ReadingI
             const drawn = resolveCard(c.name, c.isReversed === 1);
             return (
               <Pressable key={c.cardId} onPress={() => onCardPress(drawn)}>
-                <CardImage cardName={c.name} isRevealed size={60} />
+                <CardImage cardName={c.name} isRevealed isReversed={drawn.isReversed} size={60} />
               </Pressable>
             );
           })}
