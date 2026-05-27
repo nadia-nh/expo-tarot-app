@@ -85,7 +85,12 @@ function TabNavigator() {
               alignItems: 'center',
               backgroundColor: focused ? theme.colors.primaryContainer : 'transparent',
             }}>
-              <MaterialCommunityIcons name={icons[route.name]} size={size} color={color} />
+              <MaterialCommunityIcons
+                name={icons[route.name]}
+                size={size}
+                color={color}
+                style={route.name === 'Menu' ? { marginLeft: 4 } : undefined}
+              />
             </View>
           );
         },
