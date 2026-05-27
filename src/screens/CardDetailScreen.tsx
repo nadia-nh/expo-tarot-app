@@ -1,12 +1,12 @@
 import { useLayoutEffect } from 'react';
 import { ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
-import { Text, useTheme } from 'react-native-paper';
+import { Text, useTheme, MD3Theme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
 import { fontFamilies } from '../theme/typography';
 import { useTarotStore } from '../store/tarotStore';
-import { getMeaning } from '../domain/TarotCard';
+import { DrawnCard, getMeaning } from '../domain/TarotCard';
 import CardImage from '../components/CardImage';
 import CardMeaning from '../components/CardMeaning';
 
@@ -66,9 +66,9 @@ function MeaningSection({
   meaning,
   theme,
 }: {
-  selectedCard: NonNullable<ReturnType<typeof useTarotStore>['selectedCard']>;
+  selectedCard: DrawnCard;
   meaning: string;
-  theme: any;
+  theme: MD3Theme;
 }) {
   return (
     <>

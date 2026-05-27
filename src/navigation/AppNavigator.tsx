@@ -143,7 +143,6 @@ export default function AppNavigator() {
           headerTitleStyle: {
             fontFamily: fontFamilies.light,
             fontSize: 20,
-            letterSpacing: 2,
           },
           headerTintColor: theme.colors.onSurface,
         }}
