@@ -91,7 +91,24 @@ export const useTarotStore = create<TarotState>((set, get) => ({
     const spreadType = currentSpread.length === 3 ? 'ThreeCardDraw' : 'SingleCardDraw';
     await saveReading(spreadType, currentSpread);
     set({ isSpreadSaved: true });
-    await get().loadHistory();
+
+    const dbHistory = await getReadingHistory();
+    if (dbHistory.length > 0) {
+      set({ readingHistory: dbHistory });
+    } else {
+      // DB unavailable (web) — maintain an in-memory history for the session
+      const id = Date.now();
+      const inMemoryEntry: ReadingWithCards = {
+        reading: { readingId: id, timestamp: id, spreadType },
+        cards: currentSpread.map((dc, i) => ({
+          cardId: i,
+          readingOwnerId: id,
+          name: dc.card.name,
+          isReversed: dc.isReversed ? 1 : 0,
+        })),
+      };
+      set((s) => ({ readingHistory: [inMemoryEntry, ...s.readingHistory] }));
+    }
   },
 
   loadHistory: async () => {
