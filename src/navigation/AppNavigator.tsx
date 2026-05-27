@@ -80,6 +80,9 @@ function TabNavigator() {
               paddingHorizontal: 16,
               paddingVertical: 4,
               borderRadius: 16,
+              marginBottom: 4,
+              alignSelf: 'center',
+              alignItems: 'center',
               backgroundColor: focused ? theme.colors.primaryContainer : 'transparent',
             }}>
               <MaterialCommunityIcons name={icons[route.name]} size={size} color={color} />
