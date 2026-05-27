@@ -9,6 +9,7 @@ import {
   getReadingHistory,
 } from '../data/tarotRepository';
 import { ReadingWithCards } from '../data/tarotDao';
+import { addWebHistoryEntry, loadWebHistory, removeWebHistoryEntry } from '../data/webStorage';
 
 interface TarotState {
   deck: TarotCard[];
@@ -96,9 +97,9 @@ export const useTarotStore = create<TarotState>((set, get) => ({
     if (dbHistory.length > 0) {
       set({ readingHistory: dbHistory });
     } else {
-      // DB unavailable (web) — maintain an in-memory history for the session
+      // DB unavailable (web) — persist to localStorage
       const id = Date.now();
-      const inMemoryEntry: ReadingWithCards = {
+      const entry: ReadingWithCards = {
         reading: { readingId: id, timestamp: id, spreadType },
         cards: currentSpread.map((dc, i) => ({
           cardId: i,
@@ -107,13 +108,17 @@ export const useTarotStore = create<TarotState>((set, get) => ({
           isReversed: dc.isReversed ? 1 : 0,
         })),
       };
-      set((s) => ({ readingHistory: [inMemoryEntry, ...s.readingHistory] }));
+      set({ readingHistory: addWebHistoryEntry(entry) });
     }
   },
 
   loadHistory: async () => {
     const history = await getReadingHistory();
-    set({ readingHistory: history });
+    if (history.length > 0) {
+      set({ readingHistory: history });
+    } else {
+      set({ readingHistory: loadWebHistory() });
+    }
   },
 
   scheduleDeletion: (readingId) => set({ pendingDeletionId: readingId }),
@@ -124,7 +129,7 @@ export const useTarotStore = create<TarotState>((set, get) => ({
     const { pendingDeletionId } = get();
     if (pendingDeletionId == null) return;
     await removeReading(pendingDeletionId);
-    set({ pendingDeletionId: null });
+    set({ pendingDeletionId: null, readingHistory: removeWebHistoryEntry(pendingDeletionId) });
     await get().loadHistory();
   },
 
