@@ -54,6 +54,7 @@ function TabNavigator() {
           paddingTop: 4,
           borderTopColor: theme.colors.outlineVariant,
         },
+        tabBarLabelPosition: 'below-icon',
         tabBarLabelStyle: {
           fontFamily: fontFamilies.light,
           fontSize: 11,
