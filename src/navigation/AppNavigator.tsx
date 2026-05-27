@@ -1,4 +1,4 @@
-import { Platform, Pressable } from 'react-native';
+import { Platform, Pressable, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -68,14 +68,23 @@ function TabNavigator() {
         },
         headerTintColor: theme.colors.onSurface,
         headerRight,
-        tabBarIcon: ({ color, size }) => {
+        tabBarIcon: ({ focused, color, size }) => {
           const icons: Record<string, keyof typeof MaterialCommunityIcons.glyphMap> = {
             Menu: 'moon-waning-crescent',
             OneCard: 'cards-outline',
             ThreeCards: 'cards',
             History: 'history',
           };
-          return <MaterialCommunityIcons name={icons[route.name]} size={size} color={color} />;
+          return (
+            <View style={{
+              paddingHorizontal: 16,
+              paddingVertical: 4,
+              borderRadius: 16,
+              backgroundColor: focused ? theme.colors.primaryContainer : 'transparent',
+            }}>
+              <MaterialCommunityIcons name={icons[route.name]} size={size} color={color} />
+            </View>
+          );
         },
       })}
     >
