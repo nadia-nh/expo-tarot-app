@@ -3,9 +3,8 @@ import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { DrawnCard } from '../domain/TarotCard';
 import { getCardImage } from '../domain/cardImages';
+import { colors } from '../theme/colors';
 import CardTitle from './CardTitle';
-
-const SOFT_GOLD = '#D4AF37';
 
 interface Props {
   drawnCard: DrawnCard;
@@ -62,7 +61,7 @@ export default function CardDisplay({ drawnCard, onReveal, onCardPress, cardWidt
               { transform: [{ rotateY: backInterpolate }] },
             ]}
           >
-            <Text style={[styles.starSymbol, { color: SOFT_GOLD }]}>★</Text>
+            <Text style={[styles.starSymbol, { color: colors.softGold }]}>★</Text>
           </Animated.View>
           {/* Card face */}
           <Animated.Image
@@ -94,7 +93,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: SOFT_GOLD + '55',
+    borderColor: colors.softGold + '55',
   },
   cardFace: {
     top: 0,
