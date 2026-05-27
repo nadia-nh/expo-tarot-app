@@ -54,7 +54,7 @@ export default function CardDisplay({ drawnCard, onReveal, onCardPress, cardWidt
               { width: cardWidth, height: cardHeight, borderRadius: 8 },
               { transform: [{ rotateY: backInterpolate }] },
             ]}
-            resizeMode="cover"
+            resizeMode="contain"
           />
           {/* Card face */}
           <Animated.Image
@@ -65,7 +65,7 @@ export default function CardDisplay({ drawnCard, onReveal, onCardPress, cardWidt
               { width: cardWidth, height: cardHeight, borderRadius: 8 },
               { transform: [{ rotateY: frontInterpolate }] },
             ]}
-            resizeMode="cover"
+            resizeMode="contain"
           />
         </View>
       </Pressable>
