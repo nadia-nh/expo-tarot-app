@@ -78,12 +78,11 @@ function TabNavigator() {
           };
           return (
             <View style={{
-              paddingHorizontal: 16,
-              paddingVertical: 4,
-              borderRadius: 16,
-              marginBottom: 4,
-              alignSelf: 'center',
+              width: size + 24,
+              height: size + 8,
+              borderRadius: (size + 8) / 2,
               alignItems: 'center',
+              justifyContent: 'center',
               backgroundColor: focused ? theme.colors.primaryContainer : 'transparent',
             }}>
               <MaterialCommunityIcons
