@@ -51,16 +51,24 @@ export async function saveReading(
   spreadType: string,
   cards: DrawnCard[]
 ): Promise<void> {
-  const timestamp = Date.now();
-  const readingId = await insertReading(timestamp, spreadType);
-  await insertDrawnCards(
-    readingId,
-    cards.map((dc) => ({ name: dc.card.name, isReversed: dc.isReversed }))
-  );
+  try {
+    const timestamp = Date.now();
+    const readingId = await insertReading(timestamp, spreadType);
+    await insertDrawnCards(
+      readingId,
+      cards.map((dc) => ({ name: dc.card.name, isReversed: dc.isReversed }))
+    );
+  } catch (e) {
+    console.warn('[TarotRepository] saveReading failed (DB unavailable on web)', e);
+  }
 }
 
 export async function removeReading(readingId: number): Promise<void> {
-  await deleteReading(readingId);
+  try {
+    await deleteReading(readingId);
+  } catch (e) {
+    console.warn('[TarotRepository] removeReading failed (DB unavailable on web)', e);
+  }
 }
 
 export async function getReadingHistory(): Promise<ReadingWithCards[]> {
