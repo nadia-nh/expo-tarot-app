@@ -14,8 +14,8 @@ export type RootStackParamList = {
 
 export type TabParamList = {
   Menu: undefined;
-  OneCard: undefined;
-  ThreeCards: undefined;
+  OneCard: { spreadSize: 1 };
+  ThreeCards: { spreadSize: 3 };
   History: undefined;
 };
 
@@ -35,8 +35,18 @@ function TabNavigator() {
       }}
     >
       <Tab.Screen name="Menu" component={MenuScreen} options={{ title: 'Arcana Flux' }} />
-      <Tab.Screen name="OneCard" component={ResultScreen} options={{ title: '1 Card' }} />
-      <Tab.Screen name="ThreeCards" component={ResultScreen} options={{ title: '3 Cards' }} />
+      <Tab.Screen
+        name="OneCard"
+        component={ResultScreen}
+        options={{ title: '1 Card' }}
+        initialParams={{ spreadSize: 1 }}
+      />
+      <Tab.Screen
+        name="ThreeCards"
+        component={ResultScreen}
+        options={{ title: '3 Cards' }}
+        initialParams={{ spreadSize: 3 }}
+      />
       <Tab.Screen name="History" component={HistoryScreen} />
     </Tab.Navigator>
   );
@@ -53,7 +63,7 @@ export default function AppNavigator() {
         }}
       >
         <Stack.Screen name="Tabs" component={TabNavigator} options={{ headerShown: false }} />
-        <Stack.Screen name="CardDetail" component={CardDetailScreen} options={{ title: 'Card' }} />
+        <Stack.Screen name="CardDetail" component={CardDetailScreen} options={{ title: 'Card Reading' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
