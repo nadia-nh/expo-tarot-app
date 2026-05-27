@@ -2,6 +2,7 @@ import { useLayoutEffect } from 'react';
 import { ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import { fontFamilies } from '../theme/typography';
 import { useTarotStore } from '../store/tarotStore';
 import { getMeaning } from '../domain/TarotCard';
 import CardImage from '../components/CardImage';
@@ -72,7 +73,7 @@ function MeaningSection({
       <Text
         style={[
           styles.cardName,
-          { color: theme.colors.onBackground, fontFamily: 'Merriweather_700Bold' },
+          { color: theme.colors.onBackground, fontFamily: fontFamilies.bold },
         ]}
       >
         {selectedCard.card.name}

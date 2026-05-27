@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Text, useTheme } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { fontFamilies } from '../theme/typography';
 import { useTarotStore } from '../store/tarotStore';
 import MenuScreen from '../screens/MenuScreen';
 import ResultScreen from '../screens/ResultScreen';
@@ -54,14 +55,14 @@ function TabNavigator() {
           borderTopColor: theme.colors.outlineVariant,
         },
         tabBarLabelStyle: {
-          fontFamily: 'Merriweather_300Light',
+          fontFamily: fontFamilies.light,
           fontSize: 11,
           letterSpacing: 0.5,
         },
         headerStyle: { backgroundColor: theme.colors.surface, height: 72 },
         headerTitleAlign: 'center',
         headerTitleStyle: {
-          fontFamily: 'Merriweather_300Light',
+          fontFamily: fontFamilies.light,
           fontSize: 20,
           letterSpacing: 2,
           color: theme.colors.onSurface,
@@ -103,7 +104,7 @@ function TabNavigator() {
           title: 'Arcana Flux Tarot',
           tabBarLabel: 'Menu',
           headerTitleStyle: {
-            fontFamily: 'Merriweather_300Light',
+            fontFamily: fontFamilies.light,
             fontSize: 24,
             letterSpacing: 4,
             color: theme.colors.onSurface,
@@ -140,7 +141,7 @@ export default function AppNavigator() {
           headerStyle: { backgroundColor: theme.colors.surface },
           headerTitleAlign: 'center',
           headerTitleStyle: {
-            fontFamily: 'Merriweather_300Light',
+            fontFamily: fontFamilies.light,
             fontSize: 20,
             letterSpacing: 2,
           },

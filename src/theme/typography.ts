@@ -10,24 +10,30 @@ export const fonts = {
   Merriweather_700Bold,
 };
 
+export const fontFamilies = {
+  light:   'Merriweather_300Light',
+  regular: 'Merriweather_400Regular',
+  bold:    'Merriweather_700Bold',
+};
+
 export const typography = {
   headlineSmall: {
-    fontFamily: 'Merriweather_300Light',
+    fontFamily: fontFamilies.light,
     fontSize: 24,
     letterSpacing: 4,
   },
   labelSmall: {
-    fontFamily: 'Merriweather_300Light',
+    fontFamily: fontFamilies.light,
     fontSize: 12,
     letterSpacing: 2,
   },
   titleSmall: {
-    fontFamily: 'Merriweather_700Bold',
+    fontFamily: fontFamilies.bold,
     fontSize: 18,
     letterSpacing: 2,
   },
   titleMedium: {
-    fontFamily: 'Merriweather_700Bold',
+    fontFamily: fontFamilies.bold,
     fontSize: 20,
     lineHeight: 28,
     letterSpacing: 2,
@@ -39,7 +45,7 @@ export const typography = {
     letterSpacing: 0.4,
   },
   bodyLarge: {
-    fontFamily: 'Merriweather_400Regular',
+    fontFamily: fontFamilies.regular,
     fontSize: 18,
     lineHeight: 24,
     letterSpacing: 0.4,

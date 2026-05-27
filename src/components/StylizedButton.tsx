@@ -1,5 +1,6 @@
 import { StyleSheet, ViewStyle } from 'react-native';
 import { Button, useTheme } from 'react-native-paper';
+import { fontFamilies } from '../theme/typography';
 
 interface Props {
   label: string;
@@ -17,7 +18,7 @@ export default function StylizedButton({ label, onPress, disabled, outlined = tr
       onPress={onPress}
       disabled={disabled}
       style={[styles.button, style]}
-      labelStyle={{ fontFamily: 'Merriweather_300Light', letterSpacing: 2 }}
+      labelStyle={{ fontFamily: fontFamilies.light, letterSpacing: 2 }}
       textColor={theme.colors.primary}
     >
       {label}

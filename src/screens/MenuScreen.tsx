@@ -2,6 +2,7 @@ import { useWindowDimensions, ScrollView, StyleSheet, View } from 'react-native'
 import { Text, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useTarotStore } from '../store/tarotStore';
+import { fontFamilies } from '../theme/typography';
 import CardDisplay from '../components/CardDisplay';
 
 export default function MenuScreen() {
@@ -26,7 +27,7 @@ export default function MenuScreen() {
       <Text
         style={[
           styles.headline,
-          { color: theme.colors.onBackground, fontFamily: 'Merriweather_300Light' },
+          { color: theme.colors.onBackground, fontFamily: fontFamilies.light },
         ]}
       >
         Arcana Flux
@@ -37,7 +38,7 @@ export default function MenuScreen() {
           <Text
             style={[
               styles.dailyLabel,
-              { color: theme.colors.onBackground, fontFamily: 'Merriweather_400Regular' },
+              { color: theme.colors.onBackground, fontFamily: fontFamilies.regular },
             ]}
           >
             Your daily card

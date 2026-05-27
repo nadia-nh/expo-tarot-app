@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
+import { fontFamilies } from '../theme/typography';
 
 interface Props {
   name: string;
@@ -17,7 +18,7 @@ export default function CardTitle({ name, isReversed }: Props) {
 
 const styles = StyleSheet.create({
   title: {
-    fontFamily: 'Merriweather_700Bold',
+    fontFamily: fontFamilies.bold,
     textAlign: 'center',
     marginTop: 8,
     letterSpacing: 2,

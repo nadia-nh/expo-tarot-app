@@ -4,6 +4,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useNavigation } from '@react-navigation/native';
 import { useTarotStore } from '../store/tarotStore';
 import { DrawnCard } from '../domain/TarotCard';
+import { fontFamilies } from '../theme/typography';
 import { ReadingWithCards } from '../data/tarotDao';
 import CardImage from '../components/CardImage';
 import DeleteConfirmationDialog from '../components/DeleteConfirmationDialog';
@@ -49,7 +50,7 @@ function ReadingItem({ item, onDeleteSwipe, onCardPress, resolveCard }: ReadingI
     >
       <Surface style={[styles.card, { backgroundColor: theme.colors.surfaceVariant }]} elevation={0}>
         <View style={styles.header}>
-          <Text style={[styles.spreadType, { fontFamily: 'Merriweather_700Bold' }]}>
+          <Text style={[styles.spreadType, { fontFamily: fontFamilies.bold }]}>
             {item.reading.spreadType === 'ThreeCardDraw' ? '3 Card Draw' : '1 Card Draw'}
           </Text>
           <Text style={{ opacity: 0.6, fontSize: 12 }}>{formatDate(item.reading.timestamp)}</Text>
@@ -94,7 +95,7 @@ export default function HistoryScreen() {
         <Text
           style={{
             color: theme.colors.onBackground,
-            fontFamily: 'Merriweather_300Light',
+            fontFamily: fontFamilies.light,
             letterSpacing: 3,
             marginTop: 16,
             textAlign: 'center',

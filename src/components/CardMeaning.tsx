@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
+import { fontFamilies } from '../theme/typography';
 
 interface Props {
   meaning: string;
@@ -17,7 +18,7 @@ export default function CardMeaning({ meaning, label }: Props) {
 
 const styles = StyleSheet.create({
   label: {
-    fontFamily: 'Merriweather_700Bold',
+    fontFamily: fontFamilies.bold,
     fontSize: 14,
     letterSpacing: 1,
     marginTop: 16,
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   meaning: {
-    fontFamily: 'Merriweather_400Regular',
+    fontFamily: fontFamilies.regular,
     fontSize: 16,
     lineHeight: 24,
     letterSpacing: 0.4,
