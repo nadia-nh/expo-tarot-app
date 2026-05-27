@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback } from 'react';
 import {
   useWindowDimensions,
   ScrollView,
@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 import { useTarotStore } from '../store/tarotStore';
 import { DrawnCard } from '../domain/TarotCard';
 import CardDisplay from '../components/CardDisplay';
@@ -21,14 +21,19 @@ export default function ResultScreen() {
   const route = useRoute<any>();
   const spreadSize: number = route.params?.spreadSize ?? 1;
 
-  const { currentSpread, isSpreadSaved, isInitialized, drawCards, revealCard, saveCurrentReading, selectCard } =
+  const { currentSpread, currentSpreadSize, isSpreadSaved, isInitialized, drawCards, revealCard, saveCurrentReading, selectCard } =
     useTarotStore();
 
-  useEffect(() => {
-    if (isInitialized) {
-      drawCards(spreadSize);
-    }
-  }, [isInitialized, spreadSize]);
+  // Redraw when tab comes into focus, but not when returning from CardDetail.
+  // currentSpreadSize tracks which tab last drew — if it doesn't match this
+  // tab's spreadSize, we're arriving from a different tab and need a fresh draw.
+  useFocusEffect(
+    useCallback(() => {
+      if (isInitialized && currentSpreadSize !== spreadSize) {
+        drawCards(spreadSize);
+      }
+    }, [isInitialized, spreadSize, currentSpreadSize])
+  );
 
   const allRevealed = currentSpread.length > 0 && currentSpread.every((c) => c.isRevealed);
 

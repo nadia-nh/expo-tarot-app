@@ -13,6 +13,7 @@ import { ReadingWithCards } from '../data/tarotDao';
 interface TarotState {
   deck: TarotCard[];
   currentSpread: DrawnCard[];
+  currentSpreadSize: number | null;
   dailyCard: DrawnCard | null;
   isSpreadSaved: boolean;
   selectedCard: DrawnCard | null;
@@ -51,6 +52,7 @@ function drawN(deck: TarotCard[], count: number, revealed: boolean): DrawnCard[]
 export const useTarotStore = create<TarotState>((set, get) => ({
   deck: [],
   currentSpread: [],
+  currentSpreadSize: null,
   dailyCard: null,
   isSpreadSaved: false,
   selectedCard: null,
@@ -69,7 +71,7 @@ export const useTarotStore = create<TarotState>((set, get) => ({
   drawCards: (count) => {
     const { deck } = get();
     const spread = drawN(deck, count, false);
-    set({ currentSpread: spread, isSpreadSaved: false });
+    set({ currentSpread: spread, currentSpreadSize: count, isSpreadSaved: false });
   },
 
   revealCard: (index) => {
