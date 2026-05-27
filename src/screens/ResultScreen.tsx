@@ -8,6 +8,9 @@ import {
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RouteProp } from '@react-navigation/native';
+import { RootStackParamList, TabParamList } from '../navigation/AppNavigator';
 import { useTarotStore } from '../store/tarotStore';
 import { DrawnCard } from '../domain/TarotCard';
 import CardDisplay from '../components/CardDisplay';
@@ -17,8 +20,8 @@ export default function ResultScreen() {
   const theme = useTheme();
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
-  const navigation = useNavigation<any>();
-  const route = useRoute<any>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const route = useRoute<RouteProp<TabParamList, 'OneCard'>>();
   const spreadSize: number = route.params?.spreadSize ?? 1;
 
   const { currentSpread, currentSpreadSize, isSpreadSaved, isInitialized, drawCards, revealCard, saveCurrentReading, selectCard } =

@@ -2,6 +2,8 @@ import { Animated, FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { Text, Surface, useTheme } from 'react-native-paper';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/AppNavigator';
 import { useTarotStore } from '../store/tarotStore';
 import { DrawnCard } from '../domain/TarotCard';
 import { fontFamilies } from '../theme/typography';
@@ -72,7 +74,7 @@ function ReadingItem({ item, onDeleteSwipe, onCardPress, resolveCard }: ReadingI
 
 export default function HistoryScreen() {
   const theme = useTheme();
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const {
     readingHistory,
     pendingDeletionId,

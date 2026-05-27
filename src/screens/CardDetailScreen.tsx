@@ -2,6 +2,8 @@ import { useLayoutEffect } from 'react';
 import { ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/AppNavigator';
 import { fontFamilies } from '../theme/typography';
 import { useTarotStore } from '../store/tarotStore';
 import { getMeaning } from '../domain/TarotCard';
@@ -10,7 +12,7 @@ import CardMeaning from '../components/CardMeaning';
 
 export default function CardDetailScreen() {
   const theme = useTheme();
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
   const { selectedCard } = useTarotStore();

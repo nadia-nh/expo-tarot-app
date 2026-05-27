@@ -1,18 +1,21 @@
 import { useWindowDimensions, ScrollView, StyleSheet, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTarotStore } from '../store/tarotStore';
+import { DrawnCard } from '../domain/TarotCard';
 import { fontFamilies } from '../theme/typography';
+import { RootStackParamList } from '../navigation/AppNavigator';
 import CardDisplay from '../components/CardDisplay';
 
 export default function MenuScreen() {
   const theme = useTheme();
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { dailyCard, selectCard } = useTarotStore();
 
-  const handleCardPress = (card: any) => {
+  const handleCardPress = (card: DrawnCard) => {
     selectCard(card);
     navigation.navigate('CardDetail');
   };
