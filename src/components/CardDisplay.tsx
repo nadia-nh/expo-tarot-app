@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { Animated, Pressable, StyleSheet, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { DrawnCard } from '../domain/TarotCard';
@@ -15,6 +15,11 @@ interface Props {
 export default function CardDisplay({ drawnCard, onReveal, onCardPress, cardWidth = 120 }: Props) {
   const theme = useTheme();
   const flipAnim = useRef(new Animated.Value(drawnCard.isRevealed ? 180 : 0)).current;
+
+  // Reset animation when a different card is drawn into this slot
+  useEffect(() => {
+    flipAnim.setValue(drawnCard.isRevealed ? 180 : 0);
+  }, [drawnCard.card.name]);
 
   const frontInterpolate = flipAnim.interpolate({
     inputRange: [0, 180],

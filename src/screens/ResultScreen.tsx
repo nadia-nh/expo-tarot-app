@@ -50,7 +50,7 @@ export default function ResultScreen() {
         <FlatList
           horizontal
           data={currentSpread}
-          keyExtractor={(_, i) => String(i)}
+          keyExtractor={(item) => item.card.name}
           contentContainerStyle={styles.horizontalList}
           renderItem={({ item, index }) => (
             <CardDisplay
@@ -76,7 +76,7 @@ export default function ResultScreen() {
       <ScrollView contentContainerStyle={styles.verticalList}>
         {currentSpread.map((item, index) => (
           <CardDisplay
-            key={index}
+            key={item.card.name}
             drawnCard={item}
             onReveal={() => revealCard(index)}
             onCardPress={handleCardPress}
