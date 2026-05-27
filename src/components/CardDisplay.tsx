@@ -1,9 +1,11 @@
 import { useRef, useEffect } from 'react';
-import { Animated, Pressable, StyleSheet, View } from 'react-native';
+import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { DrawnCard } from '../domain/TarotCard';
 import { getCardImage } from '../domain/cardImages';
 import CardTitle from './CardTitle';
+
+const SOFT_GOLD = '#D4AF37';
 
 interface Props {
   drawnCard: DrawnCard;
@@ -45,22 +47,22 @@ export default function CardDisplay({ drawnCard, onReveal, onCardPress, cardWidt
 
   const cardHeight = cardWidth * 1.75;
   const faceSource = getCardImage(drawnCard.card.name);
-  const backSource = getCardImage('card_back');
 
   return (
     <View style={styles.wrapper}>
       <Pressable onPress={handlePress}>
         <View style={{ width: cardWidth, height: cardHeight }}>
-          {/* Card back */}
-          <Animated.Image
-            source={backSource}
+          {/* Card back — styled View with gold star, matching Android */}
+          <Animated.View
             style={[
               styles.card,
-              { width: cardWidth, height: cardHeight, borderRadius: 8 },
+              styles.cardBack,
+              { width: cardWidth, height: cardHeight, borderRadius: 8, backgroundColor: theme.colors.surface },
               { transform: [{ rotateY: backInterpolate }] },
             ]}
-            resizeMode="contain"
-          />
+          >
+            <Text style={[styles.starSymbol, { color: SOFT_GOLD }]}>★</Text>
+          </Animated.View>
           {/* Card face */}
           <Animated.Image
             source={faceSource}
@@ -87,8 +89,17 @@ const styles = StyleSheet.create({
     backfaceVisibility: 'hidden',
     position: 'absolute',
   },
+  cardBack: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: SOFT_GOLD + '55',
+  },
   cardFace: {
     top: 0,
     left: 0,
+  },
+  starSymbol: {
+    fontSize: 40,
   },
 });
