@@ -4,6 +4,7 @@ import { PaperProvider } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { fonts } from './src/theme/typography';
 import { lightTheme, darkTheme } from './src/theme/colors';
 import AppNavigator from './src/navigation/AppNavigator';
@@ -11,7 +12,7 @@ import { useTarotStore } from './src/store/tarotStore';
 
 export default function App() {
   const systemColorScheme = useColorScheme();
-  const [fontsLoaded] = useFonts(fonts);
+  const [fontsLoaded] = useFonts({ ...fonts, ...MaterialCommunityIcons.font });
   const init = useTarotStore((s) => s.init);
   const isDark = useTarotStore((s) => s.isDark);
 

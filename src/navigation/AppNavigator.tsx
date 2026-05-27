@@ -59,7 +59,7 @@ function TabNavigator() {
           fontSize: 11,
           letterSpacing: 0.5,
         },
-        headerStyle: { backgroundColor: theme.colors.surface, height: 72 },
+        headerStyle: { backgroundColor: theme.colors.surface },
         headerTitleAlign: 'center',
         headerTitleStyle: {
           fontFamily: fontFamilies.light,
