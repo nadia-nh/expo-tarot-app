@@ -1,20 +1,23 @@
+import { useColorScheme } from 'react-native';
+import { PaperProvider } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useFonts } from 'expo-font';
+import { fonts } from './src/theme/typography';
+import { lightTheme, darkTheme } from './src/theme/colors';
 
 export default function App() {
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
+  const [fontsLoaded] = useFonts(fonts);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <PaperProvider theme={isDark ? darkTheme : lightTheme}>
+      <StatusBar style={isDark ? 'light' : 'dark'} />
+    </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
