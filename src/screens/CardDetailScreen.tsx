@@ -1,5 +1,7 @@
+import { useLayoutEffect } from 'react';
 import { ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 import { useTarotStore } from '../store/tarotStore';
 import { getMeaning } from '../domain/TarotCard';
 import CardImage from '../components/CardImage';
@@ -7,9 +9,20 @@ import CardMeaning from '../components/CardMeaning';
 
 export default function CardDetailScreen() {
   const theme = useTheme();
+  const navigation = useNavigation();
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
   const { selectedCard } = useTarotStore();
+
+  useLayoutEffect(() => {
+    if (selectedCard) {
+      navigation.setOptions({
+        title: selectedCard.isReversed
+          ? `${selectedCard.card.name} (Rev.)`
+          : selectedCard.card.name,
+      });
+    }
+  }, [selectedCard, navigation]);
 
   if (!selectedCard) {
     return (

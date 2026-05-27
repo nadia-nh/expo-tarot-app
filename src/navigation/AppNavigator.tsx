@@ -58,7 +58,14 @@ function TabNavigator() {
           fontSize: 11,
           letterSpacing: 0.5,
         },
-        headerStyle: { backgroundColor: theme.colors.surface },
+        headerStyle: { backgroundColor: theme.colors.surface, height: 72 },
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          fontFamily: 'Merriweather_300Light',
+          fontSize: 20,
+          letterSpacing: 2,
+          color: theme.colors.onSurface,
+        },
         headerTintColor: theme.colors.onSurface,
         headerRight,
         tabBarIcon: ({ color, size }) => {
@@ -72,20 +79,32 @@ function TabNavigator() {
         },
       })}
     >
-      <Tab.Screen name="Menu" component={MenuScreen} options={{ title: 'Arcana Flux' }} />
+      <Tab.Screen
+        name="Menu"
+        component={MenuScreen}
+        options={{
+          title: 'Arcana Flux Tarot',
+          headerTitleStyle: {
+            fontFamily: 'Merriweather_300Light',
+            fontSize: 24,
+            letterSpacing: 4,
+            color: theme.colors.onSurface,
+          },
+        }}
+      />
       <Tab.Screen
         name="OneCard"
         component={ResultScreen}
-        options={{ title: '1 Card' }}
+        options={{ title: 'Your Card' }}
         initialParams={{ spreadSize: 1 }}
       />
       <Tab.Screen
         name="ThreeCards"
         component={ResultScreen}
-        options={{ title: '3 Cards' }}
+        options={{ title: 'Your Spread' }}
         initialParams={{ spreadSize: 3 }}
       />
-      <Tab.Screen name="History" component={HistoryScreen} />
+      <Tab.Screen name="History" component={HistoryScreen} options={{ title: 'Tarot History' }} />
     </Tab.Navigator>
   );
 }
@@ -97,6 +116,12 @@ export default function AppNavigator() {
       <Stack.Navigator
         screenOptions={{
           headerStyle: { backgroundColor: theme.colors.surface },
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontFamily: 'Merriweather_300Light',
+            fontSize: 20,
+            letterSpacing: 2,
+          },
           headerTintColor: theme.colors.onSurface,
         }}
       >
