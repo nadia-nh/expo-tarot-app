@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { Platform } from 'react-native';
 import { TarotCard, DrawnCard, Suit } from '../domain/TarotCard';
 import { getDeck, getCardByName } from '../data/hardcodedDeck';
 import {
@@ -55,7 +56,7 @@ export const useTarotStore = create<TarotState>((set, get) => ({
   selectedCard: null,
   pendingDeletionId: null,
   readingHistory: [],
-  isNetworkEnabled: false,
+  isNetworkEnabled: Platform.OS === 'web',
   isInitialized: false,
 
   init: async () => {
