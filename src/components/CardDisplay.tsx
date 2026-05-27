@@ -34,12 +34,13 @@ export default function CardDisplay({ drawnCard, onReveal, onCardPress, cardWidt
 
   const handlePress = () => {
     if (!drawnCard.isRevealed) {
+      onReveal();
       Animated.spring(flipAnim, {
         toValue: 180,
         friction: 8,
-        tension: 10,
+        tension: 40,
         useNativeDriver: true,
-      }).start(() => onReveal());
+      }).start();
     } else {
       onCardPress(drawnCard);
     }
