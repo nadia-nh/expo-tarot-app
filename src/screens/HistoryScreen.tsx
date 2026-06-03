@@ -93,16 +93,8 @@ export default function HistoryScreen() {
   if (readingHistory.length === 0) {
     return (
       <View style={[styles.empty, { backgroundColor: theme.colors.background }]}>
-        <Text style={{ opacity: 0.3, fontSize: 64 }}>☽</Text>
-        <Text
-          style={{
-            color: theme.colors.onBackground,
-            fontFamily: fontFamilies.light,
-            letterSpacing: 3,
-            marginTop: 16,
-            textAlign: 'center',
-          }}
-        >
+        <Text style={styles.emptyMoon}>☽</Text>
+        <Text style={[styles.emptyText, { color: theme.colors.onBackground }]}>
           No readings saved yet
         </Text>
       </View>
@@ -148,5 +140,12 @@ const styles = StyleSheet.create({
     width: 80,
     borderRadius: 12,
     marginLeft: 8,
+  },
+  emptyMoon: { opacity: 0.3, fontSize: 64 },
+  emptyText: {
+    fontFamily: fontFamilies.light,
+    letterSpacing: 3,
+    marginTop: 16,
+    textAlign: 'center',
   },
 });

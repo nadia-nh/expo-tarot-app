@@ -1,4 +1,4 @@
-import { Platform, Pressable, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -78,14 +78,12 @@ function TabNavigator() {
             History: 'history',
           };
           return (
-            <View style={{
+            <View style={[tabStyles.pill, {
               width: size + 24,
               height: size + 8,
               borderRadius: (size + 8) / 2,
-              alignItems: 'center',
-              justifyContent: 'center',
               backgroundColor: focused ? theme.colors.primaryContainer : 'transparent',
-            }}>
+            }]}>
               <MaterialCommunityIcons
                 name={icons[route.name]}
                 size={size}
@@ -153,3 +151,7 @@ export default function AppNavigator() {
     </NavigationContainer>
   );
 }
+
+const tabStyles = StyleSheet.create({
+  pill: { alignItems: 'center', justifyContent: 'center' },
+});
