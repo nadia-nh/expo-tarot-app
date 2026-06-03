@@ -1,4 +1,4 @@
-import { TarotCard, withRankAndSuit } from '../domain/TarotCard';
+import { TarotCard, Suit, withRankAndSuit } from '../domain/TarotCard';
 
 const BASE_URL = 'https://tarotapi.dev/api/v1';
 
@@ -29,7 +29,7 @@ function apiCardToDomain(apiCard: ApiCard): TarotCard {
     name,
     uprightMeaning: apiCard.meaning_up,
     reversedMeaning: apiCard.meaning_rev,
-    suit: 'Major Arcana' as any,
+    suit: Suit.MajorArcana,
     rank: null,
   });
 }
