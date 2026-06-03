@@ -47,6 +47,25 @@ export default function ResultScreen() {
 
   const cardWidth = isLandscape ? 100 : 120;
 
+  const renderCard = (item: DrawnCard, index: number) => (
+    <CardDisplay
+      key={item.card.name}
+      drawnCard={item}
+      onReveal={() => revealCard(index)}
+      onCardPress={handleCardPress}
+      cardWidth={cardWidth}
+    />
+  );
+
+  const saveButton = (
+    <StylizedButton
+      label={isSpreadSaved ? 'Saved' : 'Save Reading'}
+      onPress={saveCurrentReading}
+      disabled={!allRevealed || isSpreadSaved}
+      style={styles.saveButton}
+    />
+  );
+
   if (isLandscape) {
     return (
       <View style={[styles.root, { backgroundColor: theme.colors.background }]}>
@@ -55,21 +74,9 @@ export default function ResultScreen() {
           data={currentSpread}
           keyExtractor={(item) => item.card.name}
           contentContainerStyle={styles.horizontalList}
-          renderItem={({ item, index }) => (
-            <CardDisplay
-              drawnCard={item}
-              onReveal={() => revealCard(index)}
-              onCardPress={handleCardPress}
-              cardWidth={cardWidth}
-            />
-          )}
+          renderItem={({ item, index }) => renderCard(item, index)}
         />
-        <StylizedButton
-          label={isSpreadSaved ? 'Saved' : 'Save Reading'}
-          onPress={saveCurrentReading}
-          disabled={!allRevealed || isSpreadSaved}
-          style={styles.saveButton}
-        />
+        {saveButton}
       </View>
     );
   }
@@ -77,22 +84,9 @@ export default function ResultScreen() {
   return (
     <View style={[styles.root, { backgroundColor: theme.colors.background }]}>
       <ScrollView contentContainerStyle={styles.verticalList}>
-        {currentSpread.map((item, index) => (
-          <CardDisplay
-            key={item.card.name}
-            drawnCard={item}
-            onReveal={() => revealCard(index)}
-            onCardPress={handleCardPress}
-            cardWidth={cardWidth}
-          />
-        ))}
+        {currentSpread.map(renderCard)}
       </ScrollView>
-      <StylizedButton
-        label={isSpreadSaved ? 'Saved' : 'Save Reading'}
-        onPress={saveCurrentReading}
-        disabled={!allRevealed || isSpreadSaved}
-        style={styles.saveButton}
-      />
+      {saveButton}
     </View>
   );
 }
