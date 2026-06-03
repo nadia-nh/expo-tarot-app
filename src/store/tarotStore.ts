@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { Platform } from 'react-native';
 import { TarotCard, DrawnCard, Suit, SpreadType } from '../domain/TarotCard';
+import { pickRandom, drawN } from './storeUtils';
 import { getDeck, getCardByName } from '../data/hardcodedDeck';
 import {
   getFullDeck,
@@ -39,22 +40,6 @@ interface TarotState {
   resolveCardFromHistory: (name: string, isReversed: boolean) => DrawnCard;
 }
 
-function pickRandom<T>(arr: T[], count: number): T[] {
-  const shuffled = [...arr];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled.slice(0, count);
-}
-
-function drawN(deck: TarotCard[], count: number, revealed: boolean): DrawnCard[] {
-  return pickRandom(deck, count).map((card) => ({
-    card,
-    isReversed: Math.random() < 0.5,
-    isRevealed: revealed,
-  }));
-}
 
 export const useTarotStore = create<TarotState>((set, get) => ({
   deck: [],
