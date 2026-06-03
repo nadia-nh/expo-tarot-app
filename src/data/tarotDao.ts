@@ -48,18 +48,31 @@ export async function insertDrawnCards(
 
 export async function getAllReadingsWithCards(): Promise<ReadingWithCards[]> {
   const db = await getDb();
-  const readings = await db.getAllAsync<ReadingRow>(
-    'SELECT * FROM readings ORDER BY timestamp DESC'
-  );
-  const result: ReadingWithCards[] = [];
-  for (const reading of readings) {
-    const cards = await db.getAllAsync<DrawnCardRow>(
-      'SELECT * FROM drawn_cards WHERE readingOwnerId = ?',
-      reading.readingId
-    );
-    result.push({ reading, cards });
+  const rows = await db.getAllAsync<ReadingRow & DrawnCardRow>(`
+    SELECT r.readingId, r.timestamp, r.spreadType,
+           dc.cardId, dc.readingOwnerId, dc.name, dc.isReversed
+    FROM readings r
+    LEFT JOIN drawn_cards dc ON r.readingId = dc.readingOwnerId
+    ORDER BY r.timestamp DESC
+  `);
+  const map = new Map<number, ReadingWithCards>();
+  for (const row of rows) {
+    if (!map.has(row.readingId)) {
+      map.set(row.readingId, {
+        reading: { readingId: row.readingId, timestamp: row.timestamp, spreadType: row.spreadType },
+        cards: [],
+      });
+    }
+    if (row.cardId != null) {
+      map.get(row.readingId)!.cards.push({
+        cardId: row.cardId,
+        readingOwnerId: row.readingOwnerId,
+        name: row.name,
+        isReversed: row.isReversed,
+      });
+    }
   }
-  return result;
+  return Array.from(map.values());
 }
 
 export async function deleteReading(readingId: number): Promise<void> {
