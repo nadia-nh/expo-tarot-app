@@ -35,3 +35,24 @@ export function removeWebHistoryEntry(readingId: number): ReadingWithCards[] {
   saveWebHistory(history);
   return history;
 }
+
+const DAILY_CARD_KEY = 'tarot_daily_card';
+
+interface WebDailyCard { date: string; name: string; isReversed: boolean; }
+
+export function loadWebDailyCard(): WebDailyCard | null {
+  if (!isWeb()) return null;
+  try {
+    const raw = localStorage.getItem(DAILY_CARD_KEY);
+    return raw ? (JSON.parse(raw) as WebDailyCard) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function saveWebDailyCard(date: string, name: string, isReversed: boolean): void {
+  if (!isWeb()) return;
+  try {
+    localStorage.setItem(DAILY_CARD_KEY, JSON.stringify({ date, name, isReversed }));
+  } catch {}
+}

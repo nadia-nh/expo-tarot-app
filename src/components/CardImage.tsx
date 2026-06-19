@@ -22,6 +22,6 @@ export default function CardImage({ cardName, isRevealed, isReversed = false, si
 }
 
 const styles = StyleSheet.create({
-  container: { overflow: 'hidden', borderRadius: 8 },
+  container: { overflow: 'hidden', borderRadius: 12 },
   image: { width: '100%', height: '100%' },
 });

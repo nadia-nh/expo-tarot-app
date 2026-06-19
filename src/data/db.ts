@@ -33,5 +33,11 @@ async function initTables(database: SQLite.SQLiteDatabase): Promise<void> {
       suit TEXT NOT NULL,
       rank TEXT NOT NULL
     );
+
+    CREATE TABLE IF NOT EXISTS daily_card (
+      date TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      isReversed INTEGER NOT NULL
+    );
   `);
 }

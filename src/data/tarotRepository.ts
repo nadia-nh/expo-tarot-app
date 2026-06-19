@@ -9,8 +9,11 @@ import {
   insertDrawnCards,
   deleteReading,
   getAllReadingsWithCards,
+  saveDailyCard as daoSaveDailyCard,
+  getDailyCardByDate,
   ReadingWithCards,
 } from './tarotDao';
+import { loadWebDailyCard, saveWebDailyCard } from './webStorage';
 
 let cachedDeck: TarotCard[] | null = null;
 
@@ -76,5 +79,22 @@ export async function getReadingHistory(): Promise<ReadingWithCards[]> {
   } catch {
     return [];
   }
+}
+
+export async function getDailyCard(date: string): Promise<{ name: string; isReversed: boolean } | null> {
+  try {
+    const row = await getDailyCardByDate(date);
+    if (row) return { name: row.name, isReversed: row.isReversed === 1 };
+  } catch {}
+  const web = loadWebDailyCard();
+  return web?.date === date ? { name: web.name, isReversed: web.isReversed } : null;
+}
+
+export async function persistDailyCard(date: string, card: DrawnCard): Promise<void> {
+  try {
+    await daoSaveDailyCard(date, card.card.name, card.isReversed);
+    return;
+  } catch {}
+  saveWebDailyCard(date, card.card.name, card.isReversed);
 }
 

@@ -57,7 +57,7 @@ export default function CardDisplay({ drawnCard, onReveal, onCardPress, cardWidt
             style={[
               styles.card,
               styles.cardBack,
-              { width: cardWidth, height: cardHeight, borderRadius: 8, backgroundColor: theme.colors.surface },
+              { width: cardWidth, height: cardHeight, borderRadius: 12, backgroundColor: theme.colors.surface },
               { transform: [{ rotateY: backInterpolate }] },
             ]}
           >
@@ -69,7 +69,7 @@ export default function CardDisplay({ drawnCard, onReveal, onCardPress, cardWidt
             style={[
               styles.card,
               styles.cardFace,
-              { width: cardWidth, height: cardHeight, borderRadius: 8 },
+              { width: cardWidth, height: cardHeight, borderRadius: 12 },
               { transform: [{ rotateY: frontInterpolate }, ...(drawnCard.isReversed ? [{ rotate: '180deg' }] : [])] },
             ]}
             resizeMode="contain"

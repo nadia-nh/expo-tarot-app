@@ -44,13 +44,18 @@ export default function MenuScreen() {
               { color: theme.colors.onBackground, fontFamily: fontFamilies.regular },
             ]}
           >
-            Your daily card
+            Your Daily Card
+          </Text>
+          <Text
+            style={[styles.dateLabel, { color: theme.colors.onSurfaceVariant, fontFamily: fontFamilies.light }]}
+          >
+            {new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
           </Text>
           <CardDisplay
             drawnCard={dailyCard}
             onReveal={() => {}}
             onCardPress={handleCardPress}
-            cardWidth={isLandscape ? 100 : 140}
+            cardWidth={isLandscape ? 100 : Math.round((height * 0.55) / 1.75)}
           />
         </View>
       )}
@@ -75,8 +80,13 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   dailyLabel: {
-    fontSize: 14,
+    fontSize: 20,
     letterSpacing: 2,
     fontStyle: 'italic',
+  },
+  dateLabel: {
+    fontSize: 12,
+    letterSpacing: 1,
+    opacity: 0.7,
   },
 });

@@ -116,6 +116,24 @@ export async function getAllCards(): Promise<TarotCard[]> {
   );
 }
 
+export async function saveDailyCard(date: string, name: string, isReversed: boolean): Promise<void> {
+  const db = await getDb();
+  await db.runAsync(
+    'INSERT OR REPLACE INTO daily_card (date, name, isReversed) VALUES (?, ?, ?)',
+    date,
+    name,
+    isReversed ? 1 : 0
+  );
+}
+
+export async function getDailyCardByDate(date: string): Promise<{ name: string; isReversed: number } | null> {
+  const db = await getDb();
+  return db.getFirstAsync<{ name: string; isReversed: number }>(
+    'SELECT name, isReversed FROM daily_card WHERE date = ?',
+    date
+  );
+}
+
 export async function getDeckCount(): Promise<number> {
   const db = await getDb();
   const row = await db.getFirstAsync<{ count: number }>(

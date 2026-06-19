@@ -8,6 +8,8 @@ jest.mock('../../data/tarotRepository', () => ({
   saveReading: jest.fn().mockResolvedValue(undefined),
   removeReading: jest.fn().mockResolvedValue(undefined),
   getReadingHistory: jest.fn().mockResolvedValue([]),
+  getDailyCard: jest.fn().mockResolvedValue(null),
+  persistDailyCard: jest.fn().mockResolvedValue(undefined),
 }));
 
 jest.mock('../../data/webStorage', () => ({

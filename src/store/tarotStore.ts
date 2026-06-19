@@ -1,13 +1,15 @@
 import { create } from 'zustand';
 import { Platform } from 'react-native';
 import { TarotCard, DrawnCard, Suit, SpreadType } from '../domain/TarotCard';
-import { pickRandom, drawN } from './storeUtils';
+import { pickRandom, drawN, getTodayKey } from './storeUtils';
 import { getDeck, getCardByName } from '../data/hardcodedDeck';
 import {
   getFullDeck,
   saveReading,
   removeReading,
   getReadingHistory,
+  getDailyCard,
+  persistDailyCard,
 } from '../data/tarotRepository';
 import { ReadingWithCards } from '../data/tarotDao';
 import { addWebHistoryEntry, loadWebHistory, removeWebHistoryEntry } from '../data/webStorage';
@@ -56,8 +58,20 @@ export const useTarotStore = create<TarotState>((set, get) => ({
 
   init: async () => {
     const deck = await getFullDeck(get().isNetworkEnabled);
-    const dailyDrawn = drawN(deck, 1, true);
-    set({ deck, dailyCard: dailyDrawn[0] ?? null, isInitialized: true });
+    const today = getTodayKey();
+    const existing = await getDailyCard(today);
+
+    let dailyCard: DrawnCard | null = null;
+    if (existing) {
+      const card = deck.find((c) => c.name === existing.name) ?? getCardByName(existing.name);
+      if (card) dailyCard = { card, isReversed: existing.isReversed, isRevealed: true };
+    }
+    if (!dailyCard) {
+      dailyCard = drawN(deck, 1, true)[0] ?? null;
+      if (dailyCard) await persistDailyCard(today, dailyCard);
+    }
+
+    set({ deck, dailyCard, isInitialized: true });
     await get().loadHistory();
   },
 
