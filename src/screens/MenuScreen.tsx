@@ -55,7 +55,7 @@ export default function MenuScreen() {
             drawnCard={dailyCard}
             onReveal={() => {}}
             onCardPress={handleCardPress}
-            cardWidth={isLandscape ? 100 : Math.round((height * 0.55) / 1.75)}
+            cardWidth={isLandscape ? Math.round((height * 0.8) / 1.75) : Math.round((height * 0.7) / 1.75)}
           />
         </View>
       )}
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   dailyLabel: {
-    fontSize: 20,
+    fontSize: 32,
     letterSpacing: 2,
     fontStyle: 'italic',
   },
