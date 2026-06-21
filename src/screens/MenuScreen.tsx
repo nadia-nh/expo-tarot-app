@@ -68,7 +68,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 24,
+    paddingHorizontal: 24,
+    paddingVertical: 16,
   },
   headline: {
     fontSize: 28,
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
   },
   dailySection: {
     alignItems: 'center',
-    gap: 12,
+    gap: 8,
   },
   dailyLabel: {
     fontSize: 32,
