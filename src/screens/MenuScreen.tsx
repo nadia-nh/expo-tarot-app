@@ -7,15 +7,17 @@ import { DrawnCard } from '../domain/TarotCard';
 import { fontFamilies } from '../theme/typography';
 import { RootStackParamList } from '../navigation/AppNavigator';
 import CardDisplay from '../components/CardDisplay';
+import GuidanceCallout from '../components/GuidanceCallout';
 
 export default function MenuScreen() {
   const theme = useTheme();
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const { dailyCard, selectCard } = useTarotStore();
+  const { dailyCard, selectCard, seenTips, markTipSeen } = useTarotStore();
 
   const handleCardPress = (card: DrawnCard) => {
+    markTipSeen('daily');
     selectCard(card);
     navigation.navigate('CardDetail');
   };
@@ -51,6 +53,12 @@ export default function MenuScreen() {
           >
             {new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
           </Text>
+          {!seenTips.includes('daily') && (
+            <GuidanceCallout
+              text="This is your daily card. Let it guide you through the day — tap it for more details."
+              onDismiss={() => markTipSeen('daily')}
+            />
+          )}
           <CardDisplay
             drawnCard={dailyCard}
             onReveal={() => {}}

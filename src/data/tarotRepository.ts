@@ -11,9 +11,16 @@ import {
   getAllReadingsWithCards,
   saveDailyCard as daoSaveDailyCard,
   getDailyCardByDate,
+  setFlag,
+  getFlag,
   ReadingWithCards,
 } from './tarotDao';
-import { loadWebDailyCard, saveWebDailyCard } from './webStorage';
+import {
+  loadWebDailyCard,
+  saveWebDailyCard,
+  loadWebSeenTips,
+  saveWebSeenTips,
+} from './webStorage';
 
 let cachedDeck: TarotCard[] | null = null;
 
@@ -96,5 +103,23 @@ export async function persistDailyCard(date: string, card: DrawnCard): Promise<v
     return;
   } catch {}
   saveWebDailyCard(date, card.card.name, card.isReversed);
+}
+
+const TIPS_SEEN_FLAG = 'tips_seen';
+
+export async function getSeenTips(): Promise<string[]> {
+  try {
+    const raw = await getFlag(TIPS_SEEN_FLAG);
+    if (raw != null) return JSON.parse(raw) as string[];
+  } catch {}
+  return loadWebSeenTips();
+}
+
+export async function persistSeenTips(tips: string[]): Promise<void> {
+  try {
+    await setFlag(TIPS_SEEN_FLAG, JSON.stringify(tips));
+    return;
+  } catch {}
+  saveWebSeenTips(tips);
 }
 

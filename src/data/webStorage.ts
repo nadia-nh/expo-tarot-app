@@ -56,3 +56,22 @@ export function saveWebDailyCard(date: string, name: string, isReversed: boolean
     localStorage.setItem(DAILY_CARD_KEY, JSON.stringify({ date, name, isReversed }));
   } catch {}
 }
+
+const TIPS_SEEN_KEY = 'tarot_tips_seen';
+
+export function loadWebSeenTips(): string[] {
+  if (!isWeb()) return [];
+  try {
+    const raw = localStorage.getItem(TIPS_SEEN_KEY);
+    return raw ? (JSON.parse(raw) as string[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveWebSeenTips(tips: string[]): void {
+  if (!isWeb()) return;
+  try {
+    localStorage.setItem(TIPS_SEEN_KEY, JSON.stringify(tips));
+  } catch {}
+}

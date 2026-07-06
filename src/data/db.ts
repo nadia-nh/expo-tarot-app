@@ -39,5 +39,10 @@ async function initTables(database: SQLite.SQLiteDatabase): Promise<void> {
       name TEXT NOT NULL,
       isReversed INTEGER NOT NULL
     );
+
+    CREATE TABLE IF NOT EXISTS app_flags (
+      key TEXT PRIMARY KEY,
+      value TEXT NOT NULL
+    );
   `);
 }

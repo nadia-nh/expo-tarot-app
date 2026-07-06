@@ -38,6 +38,16 @@ function DarkModeToggle() {
   );
 }
 
+function TutorialButton() {
+  const theme = useTheme();
+  const { resetTips } = useTarotStore();
+  return (
+    <Pressable onPress={resetTips} style={{ paddingHorizontal: 16 }} hitSlop={8}>
+      <Text style={{ fontSize: 18, color: theme.colors.onSurface }}>✦</Text>
+    </Pressable>
+  );
+}
+
 function TabNavigator() {
   const theme = useTheme();
   const headerRight = Platform.OS === 'web' ? () => <DarkModeToggle /> : undefined;
@@ -107,6 +117,12 @@ function TabNavigator() {
             letterSpacing: 4,
             color: theme.colors.onSurface,
           },
+          headerRight: () => (
+            <View style={tabStyles.headerActions}>
+              <TutorialButton />
+              {Platform.OS === 'web' && <DarkModeToggle />}
+            </View>
+          ),
         }}
       />
       <Tab.Screen
@@ -154,4 +170,5 @@ export default function AppNavigator() {
 
 const tabStyles = StyleSheet.create({
   pill: { alignItems: 'center', justifyContent: 'center' },
+  headerActions: { flexDirection: 'row', alignItems: 'center' },
 });

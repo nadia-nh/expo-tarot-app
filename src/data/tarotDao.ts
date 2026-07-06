@@ -134,6 +134,20 @@ export async function getDailyCardByDate(date: string): Promise<{ name: string; 
   );
 }
 
+export async function setFlag(key: string, value: string): Promise<void> {
+  const db = await getDb();
+  await db.runAsync('INSERT OR REPLACE INTO app_flags (key, value) VALUES (?, ?)', key, value);
+}
+
+export async function getFlag(key: string): Promise<string | null> {
+  const db = await getDb();
+  const row = await db.getFirstAsync<{ value: string }>(
+    'SELECT value FROM app_flags WHERE key = ?',
+    key
+  );
+  return row?.value ?? null;
+}
+
 export async function getDeckCount(): Promise<number> {
   const db = await getDb();
   const row = await db.getFirstAsync<{ count: number }>(

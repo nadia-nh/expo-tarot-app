@@ -10,6 +10,8 @@ import {
   getReadingHistory,
   getDailyCard,
   persistDailyCard,
+  getSeenTips,
+  persistSeenTips,
 } from '../data/tarotRepository';
 import { ReadingWithCards } from '../data/tarotDao';
 import { addWebHistoryEntry, loadWebHistory, removeWebHistoryEntry } from '../data/webStorage';
@@ -26,8 +28,11 @@ interface TarotState {
   isNetworkEnabled: boolean;
   isInitialized: boolean;
   isDark: boolean;
+  seenTips: string[];
 
   init: () => Promise<void>;
+  markTipSeen: (id: string) => Promise<void>;
+  resetTips: () => Promise<void>;
   toggleDark: () => void;
   drawCards: (count: number) => void;
   revealCard: (index: number) => void;
@@ -55,11 +60,13 @@ export const useTarotStore = create<TarotState>((set, get) => ({
   isNetworkEnabled: Platform.OS === 'web',
   isInitialized: false,
   isDark: false,
+  seenTips: [],
 
   init: async () => {
     const deck = await getFullDeck(get().isNetworkEnabled);
     const today = getTodayKey();
     const existing = await getDailyCard(today);
+    const seenTips = await getSeenTips();
 
     let dailyCard: DrawnCard | null = null;
     if (existing) {
@@ -71,8 +78,21 @@ export const useTarotStore = create<TarotState>((set, get) => ({
       if (dailyCard) await persistDailyCard(today, dailyCard);
     }
 
-    set({ deck, dailyCard, isInitialized: true });
+    set({ deck, dailyCard, seenTips, isInitialized: true });
     await get().loadHistory();
+  },
+
+  markTipSeen: async (id) => {
+    const { seenTips } = get();
+    if (seenTips.includes(id)) return;
+    const updated = [...seenTips, id];
+    set({ seenTips: updated });
+    await persistSeenTips(updated);
+  },
+
+  resetTips: async () => {
+    set({ seenTips: [] });
+    await persistSeenTips([]);
   },
 
   drawCards: (count) => {

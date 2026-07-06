@@ -10,6 +10,8 @@ jest.mock('../../data/tarotRepository', () => ({
   getReadingHistory: jest.fn().mockResolvedValue([]),
   getDailyCard: jest.fn().mockResolvedValue(null),
   persistDailyCard: jest.fn().mockResolvedValue(undefined),
+  getSeenTips: jest.fn().mockResolvedValue([]),
+  persistSeenTips: jest.fn().mockResolvedValue(undefined),
 }));
 
 jest.mock('../../data/webStorage', () => ({
@@ -35,6 +37,7 @@ beforeEach(() => {
     isNetworkEnabled: false,
     isInitialized: true,
     isDark: false,
+    seenTips: [],
   });
 });
 
@@ -143,6 +146,38 @@ describe('saveCurrentReading', () => {
     useTarotStore.setState({ isSpreadSaved: true });
     await useTarotStore.getState().saveCurrentReading();
     expect(saveReading).not.toHaveBeenCalled();
+  });
+});
+
+describe('markTipSeen / resetTips', () => {
+  it('adds a tip id and persists it', async () => {
+    const { persistSeenTips } = jest.requireMock('../../data/tarotRepository');
+    await useTarotStore.getState().markTipSeen('daily');
+    expect(useTarotStore.getState().seenTips).toEqual(['daily']);
+    expect(persistSeenTips).toHaveBeenCalledWith(['daily']);
+  });
+
+  it('is idempotent for an already-seen tip', async () => {
+    const { persistSeenTips } = jest.requireMock('../../data/tarotRepository');
+    await useTarotStore.getState().markTipSeen('daily');
+    persistSeenTips.mockClear();
+    await useTarotStore.getState().markTipSeen('daily');
+    expect(useTarotStore.getState().seenTips).toEqual(['daily']);
+    expect(persistSeenTips).not.toHaveBeenCalled();
+  });
+
+  it('accumulates multiple tip ids', async () => {
+    await useTarotStore.getState().markTipSeen('daily');
+    await useTarotStore.getState().markTipSeen('draw');
+    expect(useTarotStore.getState().seenTips).toEqual(['daily', 'draw']);
+  });
+
+  it('resetTips clears all tips and persists the empty list', async () => {
+    const { persistSeenTips } = jest.requireMock('../../data/tarotRepository');
+    await useTarotStore.getState().markTipSeen('daily');
+    await useTarotStore.getState().resetTips();
+    expect(useTarotStore.getState().seenTips).toEqual([]);
+    expect(persistSeenTips).toHaveBeenLastCalledWith([]);
   });
 });
 
