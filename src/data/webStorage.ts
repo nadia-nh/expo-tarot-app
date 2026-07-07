@@ -75,3 +75,22 @@ export function saveWebSeenTips(tips: string[]): void {
     localStorage.setItem(TIPS_SEEN_KEY, JSON.stringify(tips));
   } catch {}
 }
+
+const TIPS_SHOWN_COUNT_KEY = 'tarot_tips_shown_count';
+
+export function loadWebShownCounts(): Record<string, number> {
+  if (!isWeb()) return {};
+  try {
+    const raw = localStorage.getItem(TIPS_SHOWN_COUNT_KEY);
+    return raw ? (JSON.parse(raw) as Record<string, number>) : {};
+  } catch {
+    return {};
+  }
+}
+
+export function saveWebShownCounts(counts: Record<string, number>): void {
+  if (!isWeb()) return;
+  try {
+    localStorage.setItem(TIPS_SHOWN_COUNT_KEY, JSON.stringify(counts));
+  } catch {}
+}

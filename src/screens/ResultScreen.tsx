@@ -25,9 +25,15 @@ export default function ResultScreen() {
   const route = useRoute<RouteProp<TabParamList, 'OneCard'>>();
   const spreadSize: number = route.params?.spreadSize ?? 1;
 
-  const { currentSpread, currentSpreadSize, isSpreadSaved, isInitialized, drawCards, revealCard, saveCurrentReading, selectCard, seenTips, markTipSeen } =
+  const { currentSpread, currentSpreadSize, isSpreadSaved, isInitialized, drawCards, revealCard, saveCurrentReading, selectCard, seenTips, markTipSeen, recordTipShown } =
     useTarotStore();
   const [showHistoryTip, setShowHistoryTip] = useState(false);
+
+  // Counts this appearance toward the auto-dismiss threshold; the tip clears
+  // itself after a few unread shows so it doesn't linger forever
+  useEffect(() => {
+    if (!seenTips.includes('draw')) recordTipShown('draw');
+  }, []);
 
   // Redraw when tab comes into focus, but not when returning from CardDetail.
   // currentSpreadSize tracks which tab last drew — if it doesn't match this

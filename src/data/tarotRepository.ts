@@ -20,6 +20,8 @@ import {
   saveWebDailyCard,
   loadWebSeenTips,
   saveWebSeenTips,
+  loadWebShownCounts,
+  saveWebShownCounts,
 } from './webStorage';
 
 let cachedDeck: TarotCard[] | null = null;
@@ -121,5 +123,23 @@ export async function persistSeenTips(tips: string[]): Promise<void> {
     return;
   } catch {}
   saveWebSeenTips(tips);
+}
+
+const TIPS_SHOWN_COUNT_FLAG = 'tips_shown_count';
+
+export async function getShownCounts(): Promise<Record<string, number>> {
+  try {
+    const raw = await getFlag(TIPS_SHOWN_COUNT_FLAG);
+    if (raw != null) return JSON.parse(raw) as Record<string, number>;
+  } catch {}
+  return loadWebShownCounts();
+}
+
+export async function persistShownCounts(counts: Record<string, number>): Promise<void> {
+  try {
+    await setFlag(TIPS_SHOWN_COUNT_FLAG, JSON.stringify(counts));
+    return;
+  } catch {}
+  saveWebShownCounts(counts);
 }
 

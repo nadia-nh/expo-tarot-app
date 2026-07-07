@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useWindowDimensions, ScrollView, StyleSheet, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -14,7 +15,13 @@ export default function MenuScreen() {
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const { dailyCard, selectCard, seenTips, markTipSeen } = useTarotStore();
+  const { dailyCard, selectCard, seenTips, markTipSeen, recordTipShown } = useTarotStore();
+
+  // Counts this appearance toward the auto-dismiss threshold; the tip clears
+  // itself after a few unread shows so it doesn't linger forever
+  useEffect(() => {
+    if (dailyCard && !seenTips.includes('daily')) recordTipShown('daily');
+  }, [!!dailyCard]);
 
   const handleCardPress = (card: DrawnCard) => {
     markTipSeen('daily');

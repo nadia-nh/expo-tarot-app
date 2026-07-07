@@ -12,6 +12,8 @@ jest.mock('../../data/tarotRepository', () => ({
   persistDailyCard: jest.fn().mockResolvedValue(undefined),
   getSeenTips: jest.fn().mockResolvedValue([]),
   persistSeenTips: jest.fn().mockResolvedValue(undefined),
+  getShownCounts: jest.fn().mockResolvedValue({}),
+  persistShownCounts: jest.fn().mockResolvedValue(undefined),
 }));
 
 jest.mock('../../data/webStorage', () => ({
@@ -38,6 +40,7 @@ beforeEach(() => {
     isInitialized: true,
     isDark: false,
     seenTips: [],
+    shownCounts: {},
   });
 });
 
@@ -178,6 +181,43 @@ describe('markTipSeen / resetTips', () => {
     await useTarotStore.getState().resetTips();
     expect(useTarotStore.getState().seenTips).toEqual([]);
     expect(persistSeenTips).toHaveBeenLastCalledWith([]);
+  });
+});
+
+describe('recordTipShown', () => {
+  it('increments the shown count and persists it', async () => {
+    const { persistShownCounts } = jest.requireMock('../../data/tarotRepository');
+    await useTarotStore.getState().recordTipShown('daily');
+    expect(useTarotStore.getState().shownCounts).toEqual({ daily: 1 });
+    expect(persistShownCounts).toHaveBeenCalledWith({ daily: 1 });
+    expect(useTarotStore.getState().seenTips).toEqual([]);
+  });
+
+  it('does not touch a tip that has already been dismissed', async () => {
+    const { persistShownCounts } = jest.requireMock('../../data/tarotRepository');
+    await useTarotStore.getState().markTipSeen('daily');
+    persistShownCounts.mockClear();
+    await useTarotStore.getState().recordTipShown('daily');
+    expect(useTarotStore.getState().shownCounts).toEqual({});
+    expect(persistShownCounts).not.toHaveBeenCalled();
+  });
+
+  it('auto-marks the tip as seen once it has been shown 3 times', async () => {
+    const { persistSeenTips } = jest.requireMock('../../data/tarotRepository');
+    await useTarotStore.getState().recordTipShown('draw');
+    await useTarotStore.getState().recordTipShown('draw');
+    expect(useTarotStore.getState().seenTips).toEqual([]);
+    await useTarotStore.getState().recordTipShown('draw');
+    expect(useTarotStore.getState().seenTips).toEqual(['draw']);
+    expect(persistSeenTips).toHaveBeenCalledWith(['draw']);
+  });
+
+  it('resetTips also clears shownCounts', async () => {
+    const { persistShownCounts } = jest.requireMock('../../data/tarotRepository');
+    await useTarotStore.getState().recordTipShown('daily');
+    await useTarotStore.getState().resetTips();
+    expect(useTarotStore.getState().shownCounts).toEqual({});
+    expect(persistShownCounts).toHaveBeenLastCalledWith({});
   });
 });
 

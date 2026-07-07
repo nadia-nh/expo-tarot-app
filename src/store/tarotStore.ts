@@ -12,7 +12,11 @@ import {
   persistDailyCard,
   getSeenTips,
   persistSeenTips,
+  getShownCounts,
+  persistShownCounts,
 } from '../data/tarotRepository';
+
+const MAX_TIP_SHOWN_COUNT = 3;
 import { ReadingWithCards } from '../data/tarotDao';
 import { addWebHistoryEntry, loadWebHistory, removeWebHistoryEntry } from '../data/webStorage';
 
@@ -29,9 +33,11 @@ interface TarotState {
   isInitialized: boolean;
   isDark: boolean;
   seenTips: string[];
+  shownCounts: Record<string, number>;
 
   init: () => Promise<void>;
   markTipSeen: (id: string) => Promise<void>;
+  recordTipShown: (id: string) => Promise<void>;
   resetTips: () => Promise<void>;
   toggleDark: () => void;
   drawCards: (count: number) => void;
@@ -61,12 +67,14 @@ export const useTarotStore = create<TarotState>((set, get) => ({
   isInitialized: false,
   isDark: false,
   seenTips: [],
+  shownCounts: {},
 
   init: async () => {
     const deck = await getFullDeck(get().isNetworkEnabled);
     const today = getTodayKey();
     const existing = await getDailyCard(today);
     const seenTips = await getSeenTips();
+    const shownCounts = await getShownCounts();
 
     let dailyCard: DrawnCard | null = null;
     if (existing) {
@@ -78,7 +86,7 @@ export const useTarotStore = create<TarotState>((set, get) => ({
       if (dailyCard) await persistDailyCard(today, dailyCard);
     }
 
-    set({ deck, dailyCard, seenTips, isInitialized: true });
+    set({ deck, dailyCard, seenTips, shownCounts, isInitialized: true });
     await get().loadHistory();
   },
 
@@ -90,9 +98,23 @@ export const useTarotStore = create<TarotState>((set, get) => ({
     await persistSeenTips(updated);
   },
 
+  recordTipShown: async (id) => {
+    const { seenTips, shownCounts } = get();
+    if (seenTips.includes(id)) return;
+    const count = (shownCounts[id] ?? 0) + 1;
+    if (count >= MAX_TIP_SHOWN_COUNT) {
+      await get().markTipSeen(id);
+      return;
+    }
+    const updated = { ...shownCounts, [id]: count };
+    set({ shownCounts: updated });
+    await persistShownCounts(updated);
+  },
+
   resetTips: async () => {
-    set({ seenTips: [] });
+    set({ seenTips: [], shownCounts: {} });
     await persistSeenTips([]);
+    await persistShownCounts({});
   },
 
   drawCards: (count) => {
