@@ -36,15 +36,6 @@ export default function MenuScreen() {
         { backgroundColor: theme.colors.background },
       ]}
     >
-      <Text
-        style={[
-          styles.headline,
-          { color: theme.colors.onBackground, fontFamily: fontFamilies.light },
-        ]}
-      >
-        Arcana Flux
-      </Text>
-
       {dailyCard && (
         <View style={styles.dailySection}>
           <Text
@@ -85,11 +76,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 24,
     paddingVertical: 16,
-  },
-  headline: {
-    fontSize: 28,
-    letterSpacing: 6,
-    marginBottom: 32,
   },
   dailySection: {
     alignItems: 'center',

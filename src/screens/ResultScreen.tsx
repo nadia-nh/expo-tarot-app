@@ -67,7 +67,7 @@ export default function ResultScreen() {
     navigation.navigate('CardDetail');
   };
 
-  const cardWidth = isLandscape ? 100 : 120;
+  const cardWidth = Math.round((height * 0.7) / 1.75);
 
   const renderCard = (item: DrawnCard, index: number) => (
     <CardDisplay
